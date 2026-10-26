@@ -1,0 +1,10 @@
+[project]
+name = "comfyui-lists-preview"
+version = "0.2.0"
+description = "Personal ComfyUI text-list selector with a clickable thumbnail gallery"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"

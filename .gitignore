@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.test-deps/
+.test-torch/
+.test-runtime/
+test-results/
+dist/
+node_modules/
+config.json
+.tools/
+.local-auth/
+.env
+.env.*

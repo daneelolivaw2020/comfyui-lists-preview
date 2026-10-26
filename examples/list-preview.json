@@ -1,0 +1,192 @@
+{
+  "id": "e82c3a70-d549-445d-b19a-fcc0e3a7a947",
+  "revision": 0,
+  "last_node_id": 4,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LuisListPreview",
+      "pos": [
+        120,
+        150
+      ],
+      "size": [
+        540,
+        820
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "list_input",
+          "name": "list_input",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "localized_name": "source",
+          "name": "source",
+          "type": "COMBO",
+          "widget": {
+            "name": "source"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "list_file",
+          "name": "list_file",
+          "type": "COMBO",
+          "widget": {
+            "name": "list_file"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "row",
+          "name": "row",
+          "type": "INT",
+          "widget": {
+            "name": "row"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "mode",
+          "name": "mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "mode"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "include_title",
+          "name": "include_title",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "include_title"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "preview_folder",
+          "name": "preview_folder",
+          "type": "STRING",
+          "widget": {
+            "name": "preview_folder"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prefix",
+          "name": "prefix",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "prefix"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "suffix",
+          "name": "suffix",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "suffix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "localized_name": "list_file",
+          "name": "list_file",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "localized_name": "row",
+          "name": "row",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "localized_name": "title",
+          "name": "title",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "localized_name": "description",
+          "name": "description",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LuisListPreview",
+        "lp_selection_revision": 38
+      },
+      "widgets_values": [
+        "File",
+        "illumination.txt",
+        3,
+        "Fixed",
+        false,
+        "",
+        "01 Neon Rain Streets: Blue and magenta neon reflecting on wet pavement, rainy night atmosphere; 50mm, f/1.8, 1/100, ISO 1600\n02 Golden Window Light: Warm sunlight through interior shadows, soft ambient glow, intimate mood; 85mm, f/2.0, 1/125, ISO 400\n03 Misty Mountain View: Diffused morning light, low clouds, cool tones, vast atmospheric depth; 35mm, f/8.0, 1/250, ISO 200\n04 Warm Alley Night: Amber streetlights, wet stone streets, deep shadows, cinematic urban mood; 50mm, f/1.8, 1/80, ISO 800\n05 Desert Sunset Glow: Intense golden light, warm hues, long shadows, dramatic sky; 35mm, f/11, 1/125, ISO 100\n06 Forest Sunbeams: Sunlight through trees, atmospheric mist, soft rays, serene natural mood; 35mm, f/4.0, 1/125, ISO 400\n07 Cozy Café Atmosphere: Warm interior lighting, soft bokeh, intimate and relaxed mood; 50mm, f/1.8, 1/60, ISO 800\n08 Stormy Coastline: Dramatic clouds, crashing waves, cool moody tones, powerful atmosphere; 24mm, f/8.0, 1/250, ISO 200\n",
+        "",
+        ""
+      ],
+      "widgets_values_named": {
+        "source": "File",
+        "list_file": "illumination.txt",
+        "row": 3,
+        "mode": "Fixed",
+        "include_title": false,
+        "preview_folder": "",
+        "text": "01 Neon Rain Streets: Blue and magenta neon reflecting on wet pavement, rainy night atmosphere; 50mm, f/1.8, 1/100, ISO 1600\n02 Golden Window Light: Warm sunlight through interior shadows, soft ambient glow, intimate mood; 85mm, f/2.0, 1/125, ISO 400\n03 Misty Mountain View: Diffused morning light, low clouds, cool tones, vast atmospheric depth; 35mm, f/8.0, 1/250, ISO 200\n04 Warm Alley Night: Amber streetlights, wet stone streets, deep shadows, cinematic urban mood; 50mm, f/1.8, 1/80, ISO 800\n05 Desert Sunset Glow: Intense golden light, warm hues, long shadows, dramatic sky; 35mm, f/11, 1/125, ISO 100\n06 Forest Sunbeams: Sunlight through trees, atmospheric mist, soft rays, serene natural mood; 35mm, f/4.0, 1/125, ISO 400\n07 Cozy Café Atmosphere: Warm interior lighting, soft bokeh, intimate and relaxed mood; 50mm, f/1.8, 1/60, ISO 800\n08 Stormy Coastline: Dramatic clouds, crashing waves, cool moody tones, powerful atmosphere; 24mm, f/8.0, 1/250, ISO 200\n",
+        "prefix": "",
+        "suffix": ""
+      }
+    }
+  ],
+  "links": [],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1,
+      "offset": [
+        0,
+        0
+      ]
+    }
+  },
+  "version": 0.4
+}

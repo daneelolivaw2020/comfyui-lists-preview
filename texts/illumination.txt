@@ -1,0 +1,8 @@
+01 Neon Rain Streets: Blue and magenta neon reflecting on wet pavement, rainy night atmosphere; 50mm, f/1.8, 1/100, ISO 1600
+02 Golden Window Light: Warm sunlight through interior shadows, soft ambient glow, intimate mood; 85mm, f/2.0, 1/125, ISO 400
+03 Misty Mountain View: Diffused morning light, low clouds, cool tones, vast atmospheric depth; 35mm, f/8.0, 1/250, ISO 200
+04 Warm Alley Night: Amber streetlights, wet stone streets, deep shadows, cinematic urban mood; 50mm, f/1.8, 1/80, ISO 800
+05 Desert Sunset Glow: Intense golden light, warm hues, long shadows, dramatic sky; 35mm, f/11, 1/125, ISO 100
+06 Forest Sunbeams: Sunlight through trees, atmospheric mist, soft rays, serene natural mood; 35mm, f/4.0, 1/125, ISO 400
+07 Cozy Café Atmosphere: Warm interior lighting, soft bokeh, intimate and relaxed mood; 50mm, f/1.8, 1/60, ISO 800
+08 Stormy Coastline: Dramatic clouds, crashing waves, cool moody tones, powerful atmosphere; 24mm, f/8.0, 1/250, ISO 200

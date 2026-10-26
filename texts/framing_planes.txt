@@ -1,0 +1,10 @@
+01. Extreme Close-Up: Very tight framing focused on a small portion of the subject, showing only highly localized detail with almost no surrounding context.
+02. Close-Up: Tight framing centered on the subject’s face or equivalent primary detail, with very limited surrounding context.
+03. Medium Close-Up: Framing from roughly the chest or upper torso upward, keeping the subject prominent while preserving a small amount of context.
+04. Medium Shot: Framing that shows the subject from around the waist upward, balancing subject presence with visible surrounding context.
+05. Three-Quarter Shot: Framing that shows most of the subject’s body, typically from about the knees upward, while keeping environmental context visible.
+06. Full Body Shot: Framing that includes the entire subject from head to toe, with enough surrounding space to clearly situate the figure in the scene.
+07. Wide Shot: Framing that shows the full subject together with a substantial portion of the surrounding environment.
+08. Very Wide Shot: Framing that emphasizes the environment strongly, with the subject appearing smaller within the overall scene.
+09. Extreme Wide Shot: Framing dominated by the environment, with the subject appearing very small and visually secondary to the overall space.
+10. Detail Shot: Framing concentrated on a specific object, body area, or localized visual element rather than the entire subject.

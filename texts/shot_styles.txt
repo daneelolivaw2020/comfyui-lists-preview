@@ -1,0 +1,15 @@
+01. Eye-Level Shot: Camera positioned at a neutral eye-level angle, producing a natural and straightforward view of the subject.
+02. Low Angle Shot: Camera positioned below the subject and looking upward, creating an upward perspective.
+03. High Angle Shot: Camera positioned above the subject and looking downward, creating a top-down viewing angle without becoming fully overhead.
+04. Bird’s-Eye View: Camera positioned directly overhead, looking straight down at the scene from above.
+05. Worm’s-Eye View: Camera positioned extremely low, looking sharply upward from near ground level.
+06. Front-Facing Shot: Camera oriented directly toward the subject from the front, producing a straight-on view.
+07. Profile Shot: Camera oriented from the side, presenting the subject in profile view.
+08. Three-Quarter View Shot: Camera oriented at an oblique angle, showing the subject from a partial front-side view.
+09. Over-the-Shoulder Shot: Camera positioned from behind one subject or visual plane, looking past it toward another subject or focal area.
+10. Centered Symmetrical Shot: Subject positioned centrally with balanced framing and strong visual symmetry.
+11. Off-Center Shot: Subject positioned away from the center of the frame, creating an asymmetrical composition.
+12. Dutch Angle Shot: Camera tilted diagonally, producing a slanted horizon and a deliberately off-balance perspective.
+13. Overhead Oblique Shot: Camera positioned above the subject at an angle, combining a downward view with visible depth and side perspective.
+14. Rear View Shot: Camera positioned behind the subject, showing the subject from the back.
+15. Wide Perspective Shot: Camera position and framing emphasize strong spatial depth and a clear sense of distance through the scene

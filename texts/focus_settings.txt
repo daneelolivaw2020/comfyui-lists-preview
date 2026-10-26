@@ -1,0 +1,5 @@
+01. Extreme Front Focus: The nearest visual plane is razor sharp, while the middle distance and background fall into strong, unmistakable blur with aggressive depth separation.
+02. Extreme Middle Focus: The middle visual plane is razor sharp, while both the foreground and background are strongly blurred, creating a narrow and clearly isolated focus band.
+03. Extreme Far Focus: The far visual plane is razor sharp, while the foreground and middle distance fall into strong, unmistakable blur with aggressive depth separation.
+04. Vintage Dreamy Soft Focus: Strong diffusion of fine detail, glowing highlight edges, reduced microcontrast and unmistakably soft optical rendering without losing overall shapes.
+05. Swirling Vintage Bokeh: circular swirling background blur, subtle curved peripheral bokeh patterns, vintage optical character with clear central sharpness.

@@ -1,0 +1,16 @@
+{
+  "1": {
+    "class_type": "LuisListPreview",
+    "inputs": {
+      "source": "File",
+      "list_file": "illumination.txt",
+      "row": 3,
+      "mode": "Fixed",
+      "include_title": false,
+      "preview_folder": "",
+      "text": "",
+      "prefix": "",
+      "suffix": ""
+    }
+  }
+}

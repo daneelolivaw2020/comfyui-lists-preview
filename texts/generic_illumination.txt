@@ -1,0 +1,24 @@
+01. Soft High-Key Daylight: Bright, broad diffused daylight creates luminous exposure, nearly white highlights, very gentle shadows, lifted midtones, soft contrast curves and clean neutral color grading.
+02. Dramatic Low-Key Lighting: Deep surrounding darkness interrupted by concentrated directional illumination, strong chiaroscuro contrast, rich black levels, controlled highlights and pronounced shadow falloff.
+03. Warm Golden Hour: Low-angle golden sunlight creates rich amber highlights, warm midtones, soft extended shadows, gentle atmospheric glow and a slightly warm photographic color grade.
+04. Cool Blue Hour: Deep cobalt-blue ambient illumination, subtle cool highlights, subdued contrast, soft shadow transitions, restrained saturation and a calm twilight photographic atmosphere.
+05. Hard Direct Sunlight: Powerful unfiltered daylight produces brilliant highlights, sharply defined shadows, strong local contrast, crisp tonal separation and vibrant natural colors.
+06. Soft Overcast Diffusion: Broad, uniform illumination with almost imperceptible shadow edges, balanced exposure, muted highlights, low contrast and natural slightly desaturated color reproduction.
+07. Warm Tungsten Glow: Rich amber-yellow illumination, warm highlights, gradual shadow falloff, darker surrounding tones and softly saturated orange-gold color grading.
+08. Cold Moonlight: Dim blue-silver illumination, cool highlights, deep bluish shadows, restrained saturation, low overall exposure and delicate nocturnal contrast.
+09. Electric Neon Contrast: Intense magenta and cyan illumination, colored highlights, strongly tinted shadows, saturated reflections and dramatic complementary color separation.
+10. Soft Pastel Editorial: Bright diffused illumination, delicate pastel toning, lightly lifted blacks, creamy highlights, reduced midtone contrast and restrained saturation.
+11. Harsh Flash Photography: Intense direct frontal illumination, crisp highlights, abrupt shadow boundaries, pronounced microcontrast and neutral-to-cool photographic color reproduction.
+12. Cinematic Chiaroscuro: Strong lateral illumination with dramatic transitions between brightly illuminated regions and deep darkness, rich shadow density, selective highlights and restrained color grading.
+13. Glowing Backlight: Powerful illumination from behind creates brilliant edge highlights, luminous atmospheric diffusion, soft ambient fill, glowing contours and gently compressed highlight tones.
+14. Warm Candlelight: Small flickering amber light sources create localized golden highlights, rapid light falloff, soft irregular shadows and deep warm-toned darkness.
+15. Misty Diffused Atmosphere: Heavily scattered illumination passes through suspended atmospheric haze, reducing contrast, softening highlights, lifting distant shadows and producing muted tonal depth.
+16. Volumetric Light Beams: Strong directional illumination penetrates a softly hazy atmosphere, forming visible shafts of light, luminous airborne particles, pronounced light-dark separation and atmospheric depth.
+17. Deep Desaturated Noir: Strong contrast, nearly monochromatic color grading, crushed shadows, pale restrained highlights, subtle cool toning and dramatic low-key exposure.
+18. Vivid Commercial Color: Clean powerful illumination, brilliant controlled highlights, rich saturation, vibrant midtones, strong color separation and polished high-contrast photographic grading.
+19. Faded Analog Film: Gently lifted black levels, compressed highlights, softened contrast curves, subdued saturation, warm midtones, cool shadow undertones and delicate film-like tonal response.
+20. Cold Clinical Lighting: Bright neutral-cool illumination, pale bluish whites, minimal warmth, restrained saturation, clear shadow definition and precise high-clarity tonal reproduction.
+21. Crimson Ambient Wash: Deep saturated red illumination dominates the scene, crimson highlights blend into dark burgundy shadows, strong monochromatic color casting and intense atmospheric contrast.
+22. Teal and Amber Grading: Cool cyan-teal shadow tones contrast with warm amber highlights, carefully separated midtones, pronounced cinematic color contrast and a controlled saturation curve.
+23. Dreamy Luminous Glow: Broad soft illumination, diffused bright highlights, gentle halation, reduced microcontrast, luminous midtones, lifted shadows and a delicate ethereal photographic finish.
+24. Stormy Dramatic Light: Dark subdued ambient illumination interrupted by powerful cold directional highlights, deep charcoal shadows, increased atmospheric contrast and cool desaturated photographic toning.
