@@ -37,7 +37,7 @@ To update an existing Colab install, stop ComfyUI and paste `examples/colab_upda
 
 ### From the private GitHub repository
 
-The repository is `daneelolivaw2020/comfyui-lists-preview`. Paste `examples/colab_install_github.py` into a code cell after installing ComfyUI and before starting its server, or use `Install_from_GitHub.ipynb`.
+The repository is `daneelolivaw2020/comfyui-lists-preview`. Copy the contents of `examples/colab_install_github.py` into one cell in your existing notebook, after installing ComfyUI and before starting its server.
 
 In GitHub, create a fine-grained personal access token limited to this repository with **Contents: Read-only**. In Colab's **Secrets** panel (key icon), add it as **GITHUB_TOKEN** and enable **Notebook access** for your notebook. The cell reads it with `google.colab.userdata.get`, sends it only as an authorization header, and downloads the selected branch. Do not paste the token into notebook source or a Git remote URL. No ZIP upload or public repository is required.
 

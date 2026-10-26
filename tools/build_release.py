@@ -55,7 +55,7 @@ def main():
     DIST.mkdir(exist_ok=True)
     notebook_path = DIST / "Install_in_Colab.ipynb"
     notebook_path.write_text(json.dumps(notebook(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    paths = [ROOT / name for name in ("__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "install.py", "Install_from_GitHub.ipynb", "README.md", "TESTING.md", "ROADMAP.md", "pyproject.toml", "package.json", ".gitignore")]
+    paths = [ROOT / name for name in ("__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "install.py", "README.md", "TESTING.md", "ROADMAP.md", "pyproject.toml", "package.json", ".gitignore")]
     for directory in ["web", "texts", "previews", "workflows", "tests", "tools", "examples"]:
         base = ROOT / directory
         if base.exists():
@@ -69,6 +69,7 @@ def main():
     version = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"]
     shutil.copy2(archive_path, DIST / f"comfyui-lists-preview-{version}.zip")
     shutil.copy2(ROOT / "examples/colab_update_cell.py", DIST / "Update_cell.py")
+    shutil.copy2(ROOT / "examples/colab_install_github.py", DIST / "Install_from_GitHub_cell.py")
     print(f"{archive_path} ({archive_path.stat().st_size:,} bytes)")
     print(notebook_path)
 
