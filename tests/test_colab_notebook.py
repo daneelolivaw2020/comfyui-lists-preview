@@ -12,8 +12,10 @@ from support import ROOT
 
 
 class ColabNotebookTests(unittest.TestCase):
-    def test_private_github_cell_uses_secret_header_and_installs_library(self):
-        import io
+    def test_public_github_cell_clones_updates_and_preserves_library(self):
+        import shutil
+        import subprocess
+        real_run = subprocess.run
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)
             comfy = base / "ComfyUI"
@@ -21,38 +23,45 @@ class ColabNotebookTests(unittest.TestCase):
             (comfy / "main.py").touch()
             (comfy / "custom_nodes").mkdir()
             data = base / "Drive" / "lists"
-            content = io.BytesIO()
-            names = ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js"]
-            with zipfile.ZipFile(content, "w") as z:
-                for name in names:
-                    z.write(ROOT / name, "owner-comfyui-lists-preview-1234/" + name)
-                z.writestr("owner-comfyui-lists-preview-1234/texts/additional.txt", "Title: More text")
-                z.writestr("owner-comfyui-lists-preview-1234/previews/additional/01.png", b"bundled-preview")
-                z.writestr("owner-comfyui-lists-preview-1234/workflows/example.json", "{}")
-            class Response:
-                status_code = 200
-                def __enter__(self): return self
-                def __exit__(self, *args): pass
-                def iter_content(self, chunk_size): yield content.getvalue()
-            def get(url, **kwargs):
-                self.assertEqual(kwargs["headers"]["Authorization"], "Bearer fake-colab-secret")
-                self.assertNotIn("fake-colab-secret", url)
-                self.assertEqual(url, "https://api.github.com/repos/daneelolivaw2020/comfyui-lists-preview/zipball/main")
-                return Response()
+            repository = base / "repository"
+            fixture = base / "remote-fixture"
+            for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js"]:
+                destination = fixture / name
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT / name, destination)
+            (fixture / "previews/additional").mkdir(parents=True)
+            (fixture / "previews/additional/01.png").write_bytes(b"bundled-image")
+            (fixture / "workflows").mkdir()
+            (fixture / "workflows/example.json").write_text("{}")
+            commands = []
+            def run(command, check):
+                self.assertTrue(check)
+                commands.append(command)
+                if command[:2] == ["git", "clone"]:
+                    self.assertEqual(command[2], "https://github.com/daneelolivaw2020/comfyui-lists-preview.git")
+                    shutil.copytree(fixture, command[3])
+                    (Path(command[3]) / ".git").mkdir()
+                elif command[0] == "git":
+                    self.assertEqual(command[1:], ["-C", str(repository), "pull", "--ff-only"])
+                else:
+                    return real_run(command, check=True, capture_output=True, text=True)
             colab = types.ModuleType("google.colab")
             colab.drive = types.SimpleNamespace(mount=lambda path: None)
-            colab.userdata = types.SimpleNamespace(get=lambda name: "fake-colab-secret" if name == "GITHUB_TOKEN" else None)
             code = (ROOT / "examples/colab_install_github.py").read_text(encoding="utf-8")
+            self.assertNotIn("userdata", code)
+            self.assertNotIn("GITHUB_TOKEN", code)
             code = code.replace('COMFYUI_DIR = "/content/ComfyUI"', f"COMFYUI_DIR = {str(comfy)!r}")
             code = code.replace('DATA_ROOT = "/content/drive/MyDrive/ComfyUI/luis-lists"', f"DATA_ROOT = {str(data)!r}")
-            namespace = {}
-            with patch.dict(sys.modules, {"google.colab": colab, "requests": types.SimpleNamespace(get=get)}):
-                exec(compile(code, "private-github-colab-cell", "exec"), namespace)
-            self.assertNotIn("token", namespace)
-            self.assertNotIn("headers", namespace)
-            self.assertEqual((data / "texts/additional.txt").read_text(), "Title: More text")
-            self.assertEqual((data / "previews/additional/01.png").read_bytes(), b"bundled-preview")
-            self.assertTrue((data / "workflows/example.json").is_file())
+            code = code.replace('Path("/content/comfyui-lists-preview")', f"Path({str(repository)!r})")
+            with patch.dict(sys.modules, {"google.colab": colab, "subprocess": types.SimpleNamespace(run=run)}):
+                exec(compile(code, "public-github-colab-cell", "exec"), {})
+                self.assertEqual((data / "previews/additional/01.png").read_bytes(), b"bundled-image")
+                self.assertTrue((data / "workflows/example.json").is_file())
+                (data / "texts/illumination.txt").write_text("Personal: preserve")
+                exec(compile(code, "public-github-colab-cell", "exec"), {})
+            self.assertEqual((data / "texts/illumination.txt").read_text(), "Personal: preserve")
+            self.assertEqual(sum(c[:2] == ["git", "clone"] for c in commands), 1)
+            self.assertEqual(sum("pull" in c for c in commands), 1)
 
     def test_update_cell_replaces_cached_zip_and_preserves_user_files(self):
         with tempfile.TemporaryDirectory() as tmp:

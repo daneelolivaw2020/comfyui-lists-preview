@@ -35,15 +35,13 @@ To update an existing Colab install, stop ComfyUI and paste `examples/colab_upda
 
 ## Install in Colab
 
-### From the private GitHub repository
+### From GitHub
 
 The repository is `daneelolivaw2020/comfyui-lists-preview`. Copy the contents of `examples/colab_install_github.py` into one cell in your existing notebook, after installing ComfyUI and before starting its server.
 
-In GitHub, create a fine-grained personal access token limited to this repository with **Contents: Read-only**. In Colab's **Secrets** panel (key icon), add it as **GITHUB_TOKEN** and enable **Notebook access** for your notebook. The cell reads it with `google.colab.userdata.get`, sends it only as an authorization header, and downloads the selected branch. Do not paste the token into notebook source or a Git remote URL. No ZIP upload or public repository is required.
+The repository is public. The cell clones it, or pulls updates when it is already present. It needs no GitHub login, token, Colab Secret, or ZIP upload.
 
-The cell defaults to `main` and the same ComfyUI/Drive paths as the ZIP installer. Each run installs current node code. Bundled texts, previews, and workflows are copied into the Drive library only when the destination file does not exist; your edited library files are preserved. To take a newer bundled data file after editing your Drive copy, compare and replace it yourself.
-
-References: [Colab Secrets API](https://github.com/googlecolab/colabtools/blob/main/google/colab/userdata.py), [GitHub repository archives](https://docs.github.com/en/rest/repos/contents#download-a-repository-archive-zip).
+The cell uses the repository's default branch and the same ComfyUI/Drive paths as the ZIP installer. Each run installs current node code. Bundled texts, previews, and workflows are copied into the Drive library only when the destination file does not exist; your edited library files are preserved. To take a newer bundled data file after editing your Drive copy, compare and replace it yourself.
 
 ### From a ZIP
 
