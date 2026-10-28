@@ -2,7 +2,11 @@
 
 A personal ComfyUI node that selects a prompt and its matching preview image from a `.txt` list using a clickable thumbnail gallery. The node uses ComfyUI's existing PyTorch, NumPy, Pillow, and aiohttp dependencies. It requires no GPU or model downloads and is intended for your own installation.
 
-## Version 0.2
+## Version 0.2.1
+
+This update preserves text edits, file changes, and manual row selections made after submitting a workflow, including while it waits in the queue. Returning to previously loaded text refreshes the gallery correctly. A failed workflow processing multiple list items retries from the state before the whole batch.
+
+To update in Colab, stop ComfyUI, rerun your existing GitHub install cell, restart ComfyUI, and refresh the browser tab (Ctrl+Shift+R). **Library folders** should show build **0.2.1**. The cell preserves existing Drive library files.
 
 The outputs, in order, are:
 
@@ -31,7 +35,7 @@ Fixes increment/random row advancement when workflow metadata is missing and sup
 
 **Reload files** replaces the Refresh label. It rereads the file list and selected text, rescans previews, and forces fresh image requests even when a replacement image retains its timestamp. **Library folders** shows the actual text/preview paths and installed build.
 
-To update an existing Colab install, stop ComfyUI and paste `examples/colab_update_cell.py` into one cell. It prompts for the new ZIP, installs the code, and replaces the cached ZIP used by the original install cell. Your existing library/configuration is retained. Restart ComfyUI and hard-refresh its browser tab (Ctrl+Shift+R). Confirm version **0.2.0** in Library folders. Running the original cached install cell alone can reinstall the old ZIP until that cache is replaced.
+For an existing ZIP-based Colab install, stop ComfyUI and paste `examples/colab_update_cell.py` into one cell. It prompts for the new ZIP, installs the code, and replaces the cached ZIP used by the original install cell. Your existing library/configuration is retained. Restart ComfyUI and hard-refresh its browser tab (Ctrl+Shift+R). Confirm version **0.2.1** in Library folders. Running the original cached install cell alone can reinstall the old ZIP until that cache is replaced.
 
 ## Install in Colab
 
@@ -129,6 +133,7 @@ npm install
 python tests/serve_frontend.py
 # In another terminal (Edge installed):
 npm run test:browser
+npm run test:tracking
 ```
 
 Use `BROWSER_CHANNEL=chrome` for Chrome or adjust the Playwright launch configuration. Screenshots and browser results are written to `test-results/`; synthetic QA thumbnails stay under `.test-runtime/` and are not included in the installable ZIP. `TESTING.md` records the tested scope and remaining environment-specific checks.

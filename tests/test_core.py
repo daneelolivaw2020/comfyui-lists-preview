@@ -120,6 +120,42 @@ class NodeTests(LibraryFixture):
             ui = self.run_node(mode="Increment after render")["ui"]["list_preview"][0]
             self.assertEqual(ui["selected_row"], 1)
 
+    def test_mapped_batch_failure_restores_state_before_first_item(self):
+        import sys
+        import types
+        current = types.SimpleNamespace(prompt_id="batch")
+        histories = {}
+        modules = {
+            "comfy_execution.utils": types.SimpleNamespace(get_executing_context=lambda: current),
+            "server": types.SimpleNamespace(PromptServer=types.SimpleNamespace(instance=types.SimpleNamespace(
+                prompt_queue=types.SimpleNamespace(get_history=lambda prompt_id: histories.get(prompt_id, {}))))),
+        }
+        for mode in ("Increment after render", "Randomize"):
+            with self.subTest(mode=mode), patch.dict(sys.modules, modules):
+                self.node = ListPreview()
+                current.prompt_id = "batch"
+                first = self.run_node(mode=mode)["result"][2]
+                self.run_node(mode=mode)
+                histories["batch"] = {"batch": {"status": {"status_str": "error"}}}
+                current.prompt_id = "retry"
+                self.assertEqual(self.run_node(mode=mode)["result"][2], first)
+
+    def test_mapped_batch_success_commits_all_items_before_next_batch(self):
+        import sys
+        import types
+        current = types.SimpleNamespace(prompt_id="batch")
+        modules = {
+            "comfy_execution.utils": types.SimpleNamespace(get_executing_context=lambda: current),
+            "server": types.SimpleNamespace(PromptServer=types.SimpleNamespace(instance=types.SimpleNamespace(
+                prompt_queue=types.SimpleNamespace(get_history=lambda prompt_id: {
+                    prompt_id: {"status": {"status_str": "success"}}})))),
+        }
+        with patch.dict(sys.modules, modules):
+            rows = [self.run_node(mode="Increment after render")["result"][2] for _ in range(2)]
+            current.prompt_id = "next-batch"
+            rows.append(self.run_node(mode="Increment after render")["result"][2])
+            self.assertEqual(rows, [1, 2, 3])
+
     def test_empty_connected_does_not_fall_back(self):
         with self.assertRaisesRegex(ValueError, "empty"):
             self.run_node(list_input="")

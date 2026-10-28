@@ -137,7 +137,9 @@ class ListPreview:
                       selected_outputs={"text": output, "list_file": file_output, "row": selected,
                                         "title": entry.title or "no title", "description": entry.description})
         # Commit progression only after successful parsing, preview discovery and output.
-        if prompt_id:
+        # All mapped list items belong to one prompt. Keep its initial snapshot
+        # so a downstream failure rolls back the entire batch, not just its tail.
+        if prompt_id and (not self._pending or self._pending[0] != prompt_id):
             self._pending = (prompt_id, (self._context, self._last_requested, self._next_row))
         self._context, self._last_requested, self._next_row = context, row, next_row
         return {"ui": {"list_preview": [result]},

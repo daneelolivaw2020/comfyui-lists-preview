@@ -301,10 +301,95 @@ try {
         assert.match((await observed()).filter(r=>r.node_id).at(-1).list_file,/texts[\\/]illumination\.txt$/);
         await page.evaluate(()=>app.graph.remove(window.testTextSink));
     });
+    await check("Restoring previously loaded text refreshes the gallery", async () => {
+        await widget("source", "File"); await widget("row", 1); await widget("mode", "Fixed");
+        await page.getByRole("button", {name:"08 — Stormy Coastline",exact:true}).waitFor();
+        await queueAndFinish();
+        const original = await widget("text");
+        await widget("text", "01 Edited: Temporary description");
+        await page.getByRole("button", {name:"01 — Edited",exact:true}).waitFor();
+        await widget("text", original);
+        await page.getByRole("button", {name:"08 — Stormy Coastline",exact:true}).waitFor();
+        assert.equal(await widget("source"), "Text");
+        assert.equal(await cards.count(), 8);
+    });
+    await check("Late execution results preserve text edits and their gallery", async () => {
+        await page.request.post("http://127.0.0.1:8189/qa/settings", {data:{node_delay:0.7}});
+        try {
+            await widget("source", "File"); await widget("row", 1);
+            await page.getByRole("button", {name:"08 — Stormy Coastline",exact:true}).waitFor();
+            await page.evaluate(async () => {
+                const {api} = await import("/scripts/api.js");
+                const started = new Promise(resolve => api.addEventListener("execution_start",resolve,{once:true}));
+                window.reviewCompletion = new Promise(resolve => api.addEventListener("execution_success",resolve,{once:true}));
+                await app.queuePrompt(0,1); await started;
+            });
+            await widget("text", "01 New Choice: My unsaved changes");
+            await page.getByRole("button", {name:"01 — New Choice",exact:true}).waitFor();
+            await page.evaluate(() => window.reviewCompletion);
+            assert.equal(await widget("text"), "01 New Choice: My unsaved changes");
+            assert.equal(await cards.count(), 1);
+            assert.equal(await page.getByRole("button", {name:"01 — New Choice",exact:true}).count(), 1);
+            assert.match((await observed()).filter(r=>r.node_id).at(-1).text, /^Blue and magenta/);
+        } finally {
+            await page.request.post("http://127.0.0.1:8189/qa/settings", {data:{node_delay:0}});
+        }
+    });
+    await check("Late execution results preserve a newly selected file and its gallery", async () => {
+        const text = new URL("../.test-runtime/library/texts/review-other.txt", import.meta.url);
+        await writeFile(text, "01 Other File: Keep this selection");
+        await page.request.post("http://127.0.0.1:8189/qa/settings", {data:{node_delay:0.7}});
+        try {
+            await widget("source", "File"); await widget("row",1);
+            await page.getByRole("button", {name:"Reload files",exact:true}).click();
+            await page.waitForFunction(() => testNode.widgets.find(w=>w.name==="list_file").options.values.includes("review-other.txt"));
+            await page.getByRole("button", {name:"08 — Stormy Coastline",exact:true}).waitFor();
+            await page.evaluate(async () => {
+                const {api} = await import("/scripts/api.js");
+                const started = new Promise(resolve => api.addEventListener("execution_start",resolve,{once:true}));
+                window.reviewCompletion = new Promise(resolve => api.addEventListener("execution_success",resolve,{once:true}));
+                await app.queuePrompt(0,1); await started;
+            });
+            await widget("list_file","review-other.txt");
+            await page.getByRole("button", {name:"01 — Other File",exact:true}).waitFor();
+            await page.evaluate(() => window.reviewCompletion);
+            assert.equal(await widget("list_file"),"review-other.txt");
+            assert.equal(await widget("text"),"01 Other File: Keep this selection");
+            assert.equal(await page.getByRole("button", {name:"01 — Other File",exact:true}).count(),1);
+        } finally {
+            await unlink(text);
+            await page.request.post("http://127.0.0.1:8189/qa/settings", {data:{node_delay:0}});
+            await widget("list_file","illumination.txt");
+            await page.getByRole("button", {name:"Reload files",exact:true}).click();
+            await page.getByRole("button", {name:"08 — Stormy Coastline",exact:true}).waitFor();
+        }
+    });
+    await check("Manual choices made while queued survive with and without workflow metadata", async () => {
+        await widget("source", "File"); await widget("mode", "Increment after render");
+        await page.getByRole("button", {name:"08 — Stormy Coastline",exact:true}).waitFor();
+        try {
+            for (const metadata of [true, false]) {
+                await page.request.post("http://127.0.0.1:8189/qa/settings", {data:{start_delay:0.6,metadata}});
+                await widget("row",1);
+                await page.evaluate(async () => {
+                    const {api} = await import("/scripts/api.js");
+                    window.reviewCompletion = new Promise(resolve => api.addEventListener("execution_success",resolve,{once:true}));
+                    await app.queuePrompt(0,1);
+                });
+                await widget("row",7);
+                await page.evaluate(() => window.reviewCompletion);
+                assert.equal(await widget("row"),7);
+                assert.equal(await page.getByRole("button", {name:"07 — Cozy Café Atmosphere",exact:true}).getAttribute("aria-pressed"),"true");
+                assert.equal((await observed()).filter(r=>r.node_id).at(-1).row,1);
+            }
+        } finally {
+            await page.request.post("http://127.0.0.1:8189/qa/settings", {data:{start_delay:0.05,metadata:true}});
+        }
+    });
     await widget("mode", "Fixed"); await widget("row", 3);
     const workflow = await page.evaluate(() => app.graph.serialize());
-    await mkdir("examples", {recursive:true});
-    await writeFile("examples/list-preview.json", JSON.stringify(workflow, null, 2));
+    await mkdir("test-results", {recursive:true});
+    await writeFile(`test-results/workflow${vue ? "-vue" : ""}.json`, JSON.stringify(workflow, null, 2));
     await page.evaluate(() => { app.canvas.ds.scale = 0.85; app.canvas.ds.offset = [0,0]; });
     await mkdir("test-results", {recursive:true});
     await page.screenshot({path:`test-results/comfyui-gallery${vue ? "-vue" : ""}.png`, fullPage:true});

@@ -25,7 +25,7 @@ class ColabNotebookTests(unittest.TestCase):
             data = base / "Drive" / "lists"
             repository = base / "repository"
             fixture = base / "remote-fixture"
-            for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js"]:
+            for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js", "web/execution_tracking.js"]:
                 destination = fixture / name
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / name, destination)
@@ -79,9 +79,9 @@ class ColabNotebookTests(unittest.TestCase):
             cached = data / "comfyui-lists-preview.zip"
             cached.write_bytes(b"old archive")
             (target / "config.json").write_text(json.dumps({"data_root": str(data)}))
-            archive = base / "comfyui-lists-preview-0.2.0.zip"
+            archive = base / "comfyui-lists-preview-0.2.1.zip"
             with zipfile.ZipFile(archive, "w") as z:
-                for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js"]:
+                for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js", "web/execution_tracking.js"]:
                     z.write(ROOT / name, "comfyui-lists-preview/" + name)
             colab = types.ModuleType("google.colab")
             colab.drive = types.SimpleNamespace(mount=lambda path: None)
@@ -93,6 +93,7 @@ class ColabNotebookTests(unittest.TestCase):
             self.assertEqual((data / "texts" / "illumination.txt").read_text(), "Private: preserve this")
             self.assertEqual(image.read_bytes(), b"personal-image")
             self.assertTrue((target / "web" / "list_browser.js").is_file())
+            self.assertTrue((target / "web" / "execution_tracking.js").is_file())
 
     def test_upload_extract_install_cell_end_to_end(self):
         spec = importlib.util.spec_from_file_location("release_builder", ROOT / "tools" / "build_release.py")
@@ -108,7 +109,7 @@ class ColabNotebookTests(unittest.TestCase):
             data = base / "Drive" / "lists"
             archive = base / "comfyui-lists-preview.zip"
             with zipfile.ZipFile(archive, "w") as z:
-                for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js"]:
+                for name in ["install.py", "__init__.py", "library.py", "node.py", "routes.py", "image_output.py", "pyproject.toml", "texts/illumination.txt", "web/list_preview.js", "web/list_browser.js", "web/execution_tracking.js"]:
                     z.write(ROOT / name, "comfyui-lists-preview/" + name)
             code = code.replace('COMFYUI_DIR = "/content/ComfyUI"', f"COMFYUI_DIR = {str(comfy)!r}")
             code = code.replace('DATA_ROOT = "/content/drive/MyDrive/ComfyUI/luis-lists"', f"DATA_ROOT = {str(data)!r}")
@@ -119,5 +120,6 @@ class ColabNotebookTests(unittest.TestCase):
                 exec(compile(code, "colab-install-cell", "exec"), {})
             target = comfy / "custom_nodes" / "comfyui-lists-preview"
             self.assertTrue((target / "web" / "list_browser.js").is_file())
+            self.assertTrue((target / "web" / "execution_tracking.js").is_file())
             self.assertEqual(json.loads((target / "config.json").read_text())["data_root"], str(data))
             self.assertTrue((data / "texts" / "illumination.txt").is_file())

@@ -7,7 +7,7 @@ import os
 import re
 
 MAX_TEXT_BYTES = 2 * 1024 * 1024
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 MAX_ENTRIES = 10000
 NUMBER = re.compile(r"^([0-9]+)(?:[.)\-:]\s+|\s+)(.+)$")
 IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp")

@@ -81,13 +81,14 @@ async def prompt(request):
     options = dict(qa)
     async def execute_inner():
         global current_context
-        await asyncio.sleep(0.05)
+        await asyncio.sleep(options.get("start_delay", 0.05))
         for ws in list(clients):
             await ws.send_json({"type": "execution_start", "data": {"prompt_id": prompt_id}})
         results = {}
         for node_id, item in body["prompt"].items():
             if item["class_type"] != "LuisListPreview":
                 continue
+            await asyncio.sleep(options.get("node_delay", 0))
             instance = instances.setdefault(node_id, ListPreview())
             current_context = types.SimpleNamespace(prompt_id=prompt_id) if options["context"] else None
             inputs = dict(item["inputs"])

@@ -1,8 +1,10 @@
-# Verification — version 0.2.0
+# Verification — version 0.2.1
 
 Tested locally on Windows with Python 3.12.14, PyTorch 2.5.1+cpu, NumPy, Pillow, Node.js 24.22.1, headless Microsoft Edge, aiohttp 3.14.5, and the official ComfyUI frontend package 1.57.3.
 
-Version 0.2.0 results: **49 backend/HTTP/image/installer tests**, plus **21 browser checks in each renderer** (42 browser checks total), with no extension JavaScript errors. The update cell is executed with mocked Colab services to verify that it replaces the old cached ZIP while preserving a user's text and image files. The public-GitHub cell is tested for fresh cloning and subsequent fast-forward pulls, without accessing Colab Secrets or authentication, and installs missing bundled library files while preserving edited ones.
+Version 0.2.1 results: **51 backend/HTTP/image/installer tests**, **5 queue-tracking JavaScript tests**, plus **25 browser checks in each renderer** (50 browser checks total), with no extension JavaScript errors. The update cell is executed with mocked Colab services to verify that it replaces the old cached ZIP while preserving a user's text and image files, including installation of the new frontend tracking module. The public-GitHub cell is tested for fresh cloning and subsequent fast-forward pulls, without accessing Colab Secrets or authentication, and installs missing bundled library files while preserving edited ones.
+
+Regression coverage verifies that late execution results preserve edited text and newly selected files, restoring original text refreshes the gallery, and manual row choices made before execution starts survive with and without workflow metadata. Queue-tracking tests cover events arriving before the HTTP response, independent nodes, rejected submissions, and removed nodes. Backend tests verify that failed mapped batches in increment/random mode restore their initial cursor and successful batches commit all items.
 
 Image tests use real CPU PyTorch tensors. They verify RGB float32 normalization, full resolution, grayscale/RGBA/16-bit PNG conversion, EXIF orientation, missing/corrupt previews, content-based cache invalidation, a 64 MiB cache budget, and isolation from downstream tensor mutations. Repeated increment/random executions verify matching image pixels, row, title, and description. Affix tests preserve exact spaces/newlines, leave the separate outputs unchanged, and cover pasted/connected file and title fallbacks.
 

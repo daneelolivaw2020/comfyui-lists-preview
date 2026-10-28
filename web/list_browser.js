@@ -1,3 +1,5 @@
+import { trackQueuedRevision } from "./execution_tracking.js?v=0.2.1";
+
 // Kept independent of Comfy globals so the real UI can also be integration-tested.
 export function attachBrowser(node, api) {
     const root = document.createElement("section");
@@ -37,6 +39,7 @@ export function attachBrowser(node, api) {
     const starts = new Map(), outcomes = new Map(), envelopes = new WeakMap();
     let activePromptId = null, reloadNonce = "", reloadCounter = 0, writtenText;
     const revision = () => Number(node.properties?.lp_selection_revision) || 0;
+    const submissions = trackQueuedRevision(api, node, revision);
     const remember = (map, key, item) => {
         map.set(key, item);
         while (map.size > 64) map.delete(map.keys().next().value);
@@ -74,7 +77,7 @@ export function attachBrowser(node, api) {
     const output = (entry) => (value("prefix") || "") + (value("include_title") ? entry.text : entry.description) + (value("suffix") || "");
     function selection() {
         if (!data) return;
-        $(".paths").textContent = `Build: ${data.node_version || "0.2.0"}\nTexts: ${data.texts_directory || ""}\nPreviews: ${data.preview_directory || "Set preview_folder to choose a directory."}`;
+        $(".paths").textContent = `Build: ${data.node_version || "0.2.1"}\nTexts: ${data.texts_directory || ""}\nPreviews: ${data.preview_directory || "Set preview_folder to choose a directory."}`;
         const row = Number(value("row"));
         select.value = String(row);
         grid.querySelectorAll(".card").forEach(card => card.setAttribute("aria-pressed", String(Number(card.dataset.row) === row)));
@@ -215,6 +218,7 @@ export function attachBrowser(node, api) {
             const result = original?.apply(this, args);
             if (updating || configuring || removed) return result;
             if (name === "text" && value("text") === writtenText) return result;
+            if (name === "text") writtenText = value("text");
             executedOutput = "";
             if (name === "text" && !connected()) set("source", "Text");
             if (!["include_title", "prefix", "suffix"].includes(name)) mark();
@@ -245,19 +249,23 @@ export function attachBrowser(node, api) {
         connectedData = null;
         schedule();
     });
-    chain("onConnectionsChange", () => { connectedData = null; schedule(); });
-    function receive(result) {
+    chain("onConnectionsChange", () => { connectedData = null; mark(); schedule(); });
+    async function receive(result) {
         if (!result || removed) return;
         const envelope = envelopes.get(result);
         const promptId = envelope?.promptId || result.prompt_id || activePromptId;
-        const localRevision = starts.get(promptId) ?? revision();
+        const queuedRevision = await submissions.get(promptId);
+        if (removed) return;
+        const localRevision = queuedRevision ?? result.selection_revision ?? starts.get(promptId);
+        // Keep edits made after submission, including changes before execution_start.
+        // Do not cancel their pending reload or restore the submitted list's text.
+        if (localRevision == null || revision() !== localRevision) return;
         generation++;
         clearTimeout(timer);
         data = result;
         connectedData = result.connected || connected() ? result : null;
         set("text", result.text);
-        const isCurrentSelection = revision() === localRevision;
-        if (isCurrentSelection) set("row", result.selected_row);
+        set("row", result.selected_row);
         executedOutput = result.output;
         if (result.mode !== "Fixed") pending.set(promptId, {result, localRevision});
         render();
@@ -320,6 +328,7 @@ export function attachBrowser(node, api) {
     for (const [event, handler] of Object.entries(listeners)) api.addEventListener(event, handler);
     chain("onRemoved", () => {
         removed = true; generation++; clearTimeout(timer); root.remove(); pending.clear();
+        submissions.dispose();
         starts.clear(); outcomes.clear();
         for (const [event, handler] of Object.entries(listeners)) api.removeEventListener(event, handler);
     });

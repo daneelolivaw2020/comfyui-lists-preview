@@ -1,8 +1,8 @@
 {
   "name": "comfyui-lists-preview-private",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
-  "scripts": {"test:browser": "node tests/browser.mjs"},
+  "scripts": {"test:browser": "node tests/browser.mjs", "test:tracking": "node --test tests/execution_tracking.mjs"},
   "devDependencies": {"playwright": "^1.58.0"}
 }

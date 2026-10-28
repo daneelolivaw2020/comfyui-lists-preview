@@ -16,7 +16,7 @@ config = comfy / "custom_nodes/comfyui-lists-preview/config.json"
 data_root = Path(json.loads(config.read_text())["data_root"]) if config.is_file() else Path("/content/drive/MyDrive/ComfyUI/luis-lists")
 data_root.mkdir(parents=True, exist_ok=True)
 
-print("Upload the NEW comfyui-lists-preview ZIP (version 0.2.0):")
+print("Upload the NEW comfyui-lists-preview ZIP (version 0.2.1):")
 uploaded = files.upload()
 archives = [name for name in uploaded if name.lower().endswith(".zip")]
 if len(archives) != 1:
@@ -39,4 +39,4 @@ with tempfile.TemporaryDirectory(prefix="luis-update-") as temp:
         shutil.copy2(archives[0], cached_zip)
 
 print("Update installed. Restart ComfyUI and hard-refresh its browser tab (Ctrl+Shift+R).")
-print("Open Library folders in the node to confirm version 0.2.0 and the preview path.")
+print("Open Library folders in the node to confirm version 0.2.1 and the preview path.")
